@@ -12,10 +12,14 @@
         <module name="repair-common" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ainms-selfmon" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="repair" options="-parameters" />
+      <module name="ainms-selfmon" options="-parameters" />
+      <module name="repair" options="" />
       <module name="repair-auth" options="-parameters" />
       <module name="repair-common" options="-parameters" />
       <module name="repair-logs" options="-parameters" />

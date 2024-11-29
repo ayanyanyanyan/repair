@@ -7,8 +7,10 @@ import org.example.repairAuth.mapper.RolesMapper;
 import org.example.repairAuth.mapper.UserMapper;
 import org.example.repairAuth.service.Impl.UserDetailsServiceImpl;
 import org.example.repairAuth.service.UserService;
+import org.example.repairAuth.until.EmailUtil;
 import org.example.repairAuth.until.UserDetailsVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.example.repaircommon.untils.Result;
@@ -25,6 +27,17 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    @Value("${spring.mail.username}")
+    private String from;
+    @Value("${spring.mail.receiver}")
+    private String receiver;
+    @Value("${spring.mail.nickName}")
+    private String nickName;
+    @Autowired
+    private EmailUtil emailUtil;
+
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -314,5 +327,13 @@ public class UserController {
             }
         }
         return "test";
+    }
+    @Operation(summary = "发送邮件")
+    @PostMapping("/sendEmail")
+    public Result<String> sendEmail(@RequestParam("to") String to,@RequestParam("title") String title,@RequestParam("content") String content){
+        Result<String> rs = new Result<>();
+        emailUtil.sendSimpleMail(to,title,content);
+        rs.setMsg("发送邮件成功！");
+        return rs;
     }
 }
